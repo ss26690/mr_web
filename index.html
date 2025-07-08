@@ -14,7 +14,7 @@
     This is a placeholder for base href that will be replaced by the value of
     the `--base-href` argument provided to `flutter build`.
   -->
-  <base href="/">
+  <base href="/mr_web">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
@@ -44,5 +44,22 @@
 
 
   <script src="flutter_bootstrap.js" async></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBIdy-N56myWDlK9sApzTMsby1b74VKg_M",
+    authDomain: "routs-e2e3c.firebaseapp.com",
+    projectId: "routs-e2e3c",
+    storageBucket: "routs-e2e3c.firebasestorage.app",
+    messagingSenderId: "950532595652",
+    appId: "1:950532595652:web:a88bf8ed807428cace4e91",
+    measurementId: "G-RX14X1DNC7"
+  };
+  firebase.initializeApp(firebaseConfig);
+</script>
+
 </body>
 </html>
