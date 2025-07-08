@@ -64,24 +64,40 @@
 
 <script>
   let deferredPrompt;
+  let isAppInstalled = false;
+
+  // Listen for appinstalled event to detect if the app is installed
+  window.addEventListener('appinstalled', (e) => {
+    isAppInstalled = true;
+    if (window.onInstallPromptAvailable) {
+      window.onInstallPromptAvailable(isAppInstalled);
+    }
+  });
+
+  // Listen for beforeinstallprompt event to detect if the app is installable
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    // Notify Flutter that the install prompt is available
-    window.flutter_inappwebview.callHandler('installPromptAvailable');
+    if (window.onInstallPromptAvailable && !isAppInstalled) {
+      window.onInstallPromptAvailable(isAppInstalled);
+    }
   });
 
   // Function to trigger the install prompt
   window.triggerInstallPrompt = function() {
-    if (deferredPrompt) {
+    if (deferredPrompt && !isAppInstalled) {
       deferredPrompt.prompt();
       deferredPrompt.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === 'accepted') {
           console.log('User accepted the install prompt');
+          isAppInstalled = true;
         } else {
           console.log('User dismissed the install prompt');
         }
         deferredPrompt = null;
+        if (window.onInstallPromptAvailable) {
+          window.onInstallPromptAvailable(isAppInstalled);
+        }
       });
     }
   };
