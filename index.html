@@ -30,7 +30,7 @@
   <link rel="icon" type="image/png" href="favicon.png"/>
 
   <title>routs</title>
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="/mr_web/manifest.json">
 </head>
 <body>
 
@@ -59,6 +59,32 @@
     measurementId: "G-RX14X1DNC7"
   };
   firebase.initializeApp(firebaseConfig);
+</script>
+
+
+<script>
+  let deferredPrompt;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    // Notify Flutter that the install prompt is available
+    window.flutter_inappwebview.callHandler('installPromptAvailable');
+  });
+
+  // Function to trigger the install prompt
+  window.triggerInstallPrompt = function() {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the install prompt');
+        } else {
+          console.log('User dismissed the install prompt');
+        }
+        deferredPrompt = null;
+      });
+    }
+  };
 </script>
 
 </body>
